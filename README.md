@@ -2,11 +2,14 @@
 
 Stone Template Pirates
 
-Student Name: <Not your pokemon ID>
+Student Name: Forrest Warner
 
 Issues:
 
 Notes:
+
+- Macros would work, but for this assignment not allowed to use them.
+- templates cannot recieve floating point values as parameters
 
 ----
 
