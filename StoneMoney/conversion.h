@@ -1,69 +1,178 @@
-#pragma once
+#ifndef CONVERSION_H
+#define CONVERSION_H
 
 #include "countries.h"
-#include "convert.h"
-#include "money.h"
+#include "currency.h"
 
-template<Currency<int, int> value, Convert kDir, CountryCode kCode> //Primary template
+template<class money, CountryCode kCode> //Primary template
 class Conversion; //If the kCode is not defined in the partial specializations, nothing happens (as by my design)
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kUS> //partial specialization
+template<int dollar, int cent> //USD is the standard
+class Conversion<Currency<dollar, cent>, CountryCode::kUS> //partial specialization 
 {
-private:
-	static constexpr Currency<1,00> USD_;
-
-protected:
-	Conversion() = default;
-
 public:
-	
+	static constexpr auto USD { Currency<dollar, cent>::value }; //1 US dollar == 1 US dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kAU>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kAU>
 {
-private:
-	static constexpr Currency<0,76> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0,76>::value }; //76 US cents == 1 AU dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kNZ>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kNZ>
 {
-private:
-	static constexpr Currency<0, 71> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0, 71>::value }; //71 US cents == 1 NZ dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kFJ>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kFJ>
 {
-private:
-	static constexpr Currency<0, 49> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0, 49>::value }; //49 US cents == 1 FJ dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kTO>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kTO>
 {
-private:
-	static constexpr Currency<0, 45> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0, 45>::value }; //45 US cents == 1 TO dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kPG>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kPG>
 {
-private:
-	static constexpr Currency<0, 31> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0, 31>::value }; //31 US cents == 1 PG dollar
 };
 
-template<Currency<int, int> value>
-class Conversion<value, Convert::kFrom, CountryCode::kSB>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kSB>
 {
-private:
-	static constexpr Currency<0, 13> USD_;
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<0, 13>::value }; //13 US cents == 1 SB dollar
 };
 
-/*template<> //TODO: handle the conversion from one currency to another (Prof informed me this is unlikely to work but i can try it)
-class Conversion<>
+template<int dollar, int cent>
+class Conversion<Currency<dollar, cent>, CountryCode::kYP>
 {
-	
-};*/
+public:
+	static constexpr auto USD { Currency<dollar, cent>::value * Currency<69, 00>::value }; //69 US dollars == 1 SB dollar
+};
+
+template<int dollar, int cent, CountryCode kFrom> //all currencies are pre converted to US monies
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kUS>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kAU>
+{
+public:
+	static constexpr auto value { Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<1,32>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kNZ>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<1,41>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kFJ>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<2,04>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kTO>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<2,22>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kPG>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<3,23>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kSB>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<7,69>::value };
+};
+
+template<int dollar, int cent, CountryCode kFrom>
+class Conversion<Conversion<Currency<dollar, cent>, kFrom>, CountryCode::kYP>
+{
+public:
+	static constexpr auto value{ Conversion<Currency<dollar,cent>, kFrom>::USD * Currency<0,01>::value };
+};
+
+template<int dollar, int cent> //converting to itself
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kUS>, CountryCode::kUS>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kAU>, CountryCode::kAU>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kNZ>, CountryCode::kNZ>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kFJ>, CountryCode::kFJ>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kTO>, CountryCode::kTO>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kPG>, CountryCode::kPG>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kSB>, CountryCode::kSB>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+template<int dollar, int cent>
+class Conversion<Conversion<Currency<dollar, cent>, CountryCode::kYP>, CountryCode::kYP>
+{
+public:
+	static constexpr auto value{ Currency<dollar,cent>::value };
+};
+
+#endif

@@ -1,5 +1,5 @@
-#ifndef MONEY_H
-#define MONEY_H
+#ifndef CURRENCY_H
+#define CURRENCY_H
 
 #include <stdexcept>
 
@@ -18,8 +18,8 @@ private:
 		if (value >= 100) { throw std::out_of_range("error: Will not convert excess cents!"); }
 		return value / 100.0;
 	}
-protected:
-	static constexpr auto value_{ verifyD(dollar) + verifyC(cents) };
+public:
+	static constexpr auto value{ verifyD(dollar) + verifyC(cents) };
 };
 #endif
 //template defining how my monies work. Takes place of using doubles for values

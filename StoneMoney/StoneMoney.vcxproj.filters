@@ -24,13 +24,10 @@
     <ClInclude Include="countries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="convert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="money.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="conversion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="currency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

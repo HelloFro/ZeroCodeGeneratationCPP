@@ -6,10 +6,16 @@ Student Name: Forrest Warner
 
 Issues:
 
+- Wasn't able to find a way to  take excess cents and convert them to dollars
+- Wasn't able to fix the precision of the conversions
+
 Notes:
 
 - Macros would work, but for this assignment not allowed to use them.
 - templates cannot recieve floating point values as parameters
+- constexpr will help out greatly in generating 0 code
+- Conversion equation: .[ 00, 100 ) cents US / 1 dollar (country), ie. .76 cents US == 1 dollar AU  
+					   1 dollar US / .[ 00, 100 ) cents (country), ie. 1 dollar US == 1.32 AU
 
 ----
 
@@ -43,3 +49,9 @@ Here is a conversion table you can use for your software:
 | Solomon Islands  | SB   | 0.13  | 
 
 see: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 for a list of 2 letter country codes
+
+----
+
+Citations:
+
+- See:[Metaprogramming](https://en.wikipedia.org/wiki/Template_metaprogramming).
