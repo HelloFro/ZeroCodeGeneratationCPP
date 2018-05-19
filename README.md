@@ -47,6 +47,7 @@ Here is a conversion table you can use for your software:
 | Tonga            | TO   | 0.45  | 
 | Papua New Guinea | PG   | 0.31  |
 | Solomon Islands  | SB   | 0.13  | 
+| Yap              | YP   | 69.00 |
 
 see: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 for a list of 2 letter country codes
 
